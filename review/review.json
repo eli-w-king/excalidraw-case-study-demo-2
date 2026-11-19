@@ -1,6 +1,6 @@
 {
-  "title": "Four toolbar directions for Excalidraw",
-  "summary": "Four prototypes explore how to make the Excalidraw toolbar easier to use. Big and touch friendly stays the default on desktop and tablet; this iteration applies the practice research to that design.",
+  "title": "Excalidraw toolbar comparison lab",
+  "summary": "Big and touch friendly stays the default. Try three new versions that explore what happens after drawing, what fits on a portrait tablet, and how to show shortcuts without losing labels.",
   "favorite": "touch",
   "variations": [
     {
@@ -27,6 +27,42 @@
       "idea": "A thumb-reachable dock keeps Select, Pan, Insert image, and Repeat tool visible above a labeled drawing grid on narrow screens.",
       "screenshot": "shots/touch.png",
       "why": "Labels and generous tap targets stay. Repeat tool shows On or Off, and the active tool gets an outline so selection doesn't depend on color."
+    },
+    {
+      "slug": "touch-repeat",
+      "name": "Draw Again",
+      "idea": "A control next to the drawing tools says whether you'll keep using that tool or switch back to Select.",
+      "screenshot": "shots/touch-repeat.png",
+      "video": {
+        "src": "demos/touch-repeat.mp4",
+        "captions": "demos/touch-repeat.vtt",
+        "poster": "demos/touch-repeat.jpg",
+        "title": "Draw Again: five circles without reselecting Ellipse"
+      }
+    },
+    {
+      "slug": "touch-portrait",
+      "name": "Portrait Dock",
+      "idea": "Keep Insert image and core tools in reach, and put the rest one tap away.",
+      "screenshot": "shots/touch-portrait.png",
+      "video": {
+        "src": "demos/touch-portrait.mp4",
+        "captions": "demos/touch-portrait.vtt",
+        "poster": "demos/touch-portrait.jpg",
+        "title": "Portrait Dock: find a core tool and open the secondary tools"
+      }
+    },
+    {
+      "slug": "touch-shortcuts",
+      "name": "Labels + Shortcuts",
+      "idea": "Keep plain-language labels and reveal shortcut keys inside the existing buttons, without widening the dock.",
+      "screenshot": "shots/touch-shortcuts.png",
+      "video": {
+        "src": "demos/touch-shortcuts.mp4",
+        "captions": "demos/touch-shortcuts.vtt",
+        "poster": "demos/touch-shortcuts.jpg",
+        "title": "Labels + Shortcuts: reveal the keys and draw with R and O"
+      }
     }
   ],
   "video": {
@@ -36,9 +72,9 @@
     "title": "Previous iteration: drawing three shapes with the touch toolbar"
   },
   "pr": {
-    "url": "https://github.com/eli-w-king/excalidraw-case-study-demo-2/pull/2",
-    "title": "toolbar: Refine the touch dock from practice research",
-    "number": 2,
+    "url": "https://github.com/eli-w-king/excalidraw-case-study-demo-2/pull/3",
+    "title": "toolbar: Compare three touch-first variations",
+    "number": 3,
     "status": "Draft"
   },
   "updated": "2026-11-19"

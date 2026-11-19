@@ -108,20 +108,10 @@
     return wrap;
   }
 
-  function renderVideo(video) {
-    var wrap = section("Demo video");
+  function videoPlayer(video) {
     var src = video && safeUrl(video.src);
     if (!src) {
-      wrap.appendChild(
-        placeholder("No video yet", [
-          "A short narrated demo goes here. Save it as ",
-          { code: "review/demo.mp4" },
-          " and add it to ",
-          { code: "review/review.json" },
-          ".",
-        ]),
-      );
-      return wrap;
+      return null;
     }
     var player = el("video", "video");
     player.controls = true;
@@ -145,7 +135,21 @@
     if (video.title) {
       player.setAttribute("aria-label", video.title);
     }
-    wrap.appendChild(player);
+    return player;
+  }
+
+  function renderVideo(video) {
+    var wrap = section("Demo video");
+    wrap.appendChild(
+      videoPlayer(video) ||
+        placeholder("No video yet", [
+          "A short narrated demo goes here. Save it as ",
+          { code: "review/demo.mp4" },
+          " and add it to ",
+          { code: "review/review.json" },
+          ".",
+        ]),
+    );
     return wrap;
   }
 
@@ -197,6 +201,15 @@
       var link = el("a", "card__link", "Try it live");
       link.href = linkFor(variation);
       body.appendChild(link);
+      var demo = videoPlayer(variation.video);
+      if (demo) {
+        var disclosure = el("details", "card__demo");
+        disclosure.appendChild(
+          el("summary", "card__link", "Watch " + (variation.name || variation.slug) + " demo"),
+        );
+        disclosure.appendChild(demo);
+        body.appendChild(disclosure);
+      }
       card.appendChild(body);
       grid.appendChild(card);
     });

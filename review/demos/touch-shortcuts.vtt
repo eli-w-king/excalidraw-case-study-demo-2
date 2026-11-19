@@ -1,0 +1,16 @@
+WEBVTT
+
+1
+00:00:01.002 --> 00:00:05.999
+Labels are on by default. If you prefer the keyboard, turn
+on Shortcut hints.
+
+2
+00:00:06.500 --> 00:00:12.004
+The letters appear inside the buttons without moving them.
+Press R to pick Rectangle, then draw.
+
+3
+00:00:12.504 --> 00:00:16.740
+Press O for Ellipse and draw beside it. Both tool labels are
+still visible.
