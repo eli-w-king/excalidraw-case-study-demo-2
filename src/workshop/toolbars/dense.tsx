@@ -39,6 +39,13 @@ const shortLabels: Partial<Record<ToolbarTool["type"], string>> = {
 };
 
 const styles = `
+  /* The taller strip overlaps the stock welcome callouts. */
+  .App-menu_top:has(.toolbar-dense) :is(
+    .welcome-screen-decor-hint--toolbar,
+    .welcome-screen-decor-hint--menu
+  ) {
+    display: none;
+  }
   .toolbar-dense {
     display: grid;
     gap: 5px;
