@@ -1,0 +1,26 @@
+.toolbar-touch-shortcuts button[data-tool] {
+  position: relative;
+}
+
+.toolbar-touch-shortcuts .touch-key-hint,
+.toolbar-touch-shortcuts .touch-keys-icon {
+  display: grid;
+  min-width: 16px;
+  min-height: 16px;
+  padding-inline: 2px;
+  place-items: center;
+  border: 1px solid currentColor;
+  border-radius: 4px;
+  font: 600 11px/1 var(--ui-font);
+}
+
+.toolbar-touch-shortcuts .touch-key-hint {
+  position: absolute;
+  inset-block-start: 4px;
+  inset-inline-end: 4px;
+}
+
+.toolbar-touch-shortcuts .touch-keys-icon {
+  min-width: 22px;
+  min-height: 22px;
+}

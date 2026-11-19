@@ -39,14 +39,22 @@ const navigationTargets: Partial<Record<ToolbarTool["type"], string>> = {
   hand: "Canvas",
 };
 
+type TouchDockProps = ToolbarProps & {
+  direction?: "repeat" | "shortcuts";
+};
+
 export default function TouchToolbar({
+  appState,
   tools,
   locked,
   toggleLock,
   renderHint,
-}: ToolbarProps) {
+  direction,
+}: TouchDockProps) {
   const [moreOpen, setMoreOpen] = useState(false);
+  const [showKeys, setShowKeys] = useState(false);
   const moreId = useId();
+  const repeatId = useId();
   const moreButton = useRef<HTMLButtonElement>(null);
 
   const objectSelection = tools.find((tool) => tool.type === "selection");
@@ -63,6 +71,13 @@ export default function TouchToolbar({
     (tool) =>
       tool.type === "eraser" || (tool.group === "more" && tool !== image),
   );
+  const repeatTool = drawing.find(
+    (tool) => tool.active && !tool.disabled && tool.type !== "freedraw",
+  );
+  const isFreeDrawing = appState.activeTool.type === "freedraw";
+  const repeatLabel = repeatTool && (labels[repeatTool.type] ?? repeatTool.label);
+  const selectionLabel =
+    appState.preferredSelectionTool.type === "lasso" ? "Lasso" : "Select";
 
   const toolButton = (tool: ToolbarTool, inMore = false) => {
     const label = labels[tool.type] ?? tool.label;
@@ -75,7 +90,16 @@ export default function TouchToolbar({
         title={
           tool.shortcut ? `${description} (${tool.shortcut})` : description
         }
-        aria-description={descriptions[tool.type]}
+        aria-description={
+          direction === "shortcuts"
+            ? [
+                descriptions[tool.type],
+                tool.shortcut && `Shortcut: ${tool.shortcut}`,
+              ]
+                .filter(Boolean)
+                .join(". ") || undefined
+            : descriptions[tool.type]
+        }
         aria-pressed={tool.active}
         disabled={tool.disabled}
         onClick={() => {
@@ -93,15 +117,28 @@ export default function TouchToolbar({
             {navigationTargets[tool.type]}
           </span>
         )}
+        {direction === "shortcuts" && showKeys && tool.keyHint && (
+          <kbd className="touch-key-hint" aria-hidden="true">
+            {tool.keyHint}
+          </kbd>
+        )}
       </button>
     );
   };
 
   return (
     <div
-      className="toolbar-touch"
+      className={
+        direction ? `toolbar-touch toolbar-touch-${direction}` : "toolbar-touch"
+      }
       role="group"
-      aria-label="Touch tools"
+      aria-label={
+        direction === "repeat"
+          ? "Draw Again tools"
+          : direction === "shortcuts"
+          ? "Labels and Shortcuts tools"
+          : "Touch tools"
+      }
       onBlur={(event) => {
         if (!event.currentTarget.contains(event.relatedTarget)) {
           setMoreOpen(false);
@@ -126,43 +163,58 @@ export default function TouchToolbar({
           aria-label="Insert and options"
         >
           {image && toolButton(image)}
-          <button
-            type="button"
-            aria-description={repeatDescription}
-            aria-pressed={locked}
-            onPointerEnter={(event) => {
-              if (event.pointerType !== "touch") {
-                showTooltip(event.currentTarget, repeatDescription, {
-                  delay: true,
-                  long: true,
-                  position: "top",
-                });
-              }
-            }}
-            onPointerLeave={hideTooltip}
-            onFocus={(event) => {
-              if (event.currentTarget.matches(":focus-visible")) {
-                showTooltip(event.currentTarget, repeatDescription, {
-                  long: true,
-                  position: "top",
-                });
-              }
-            }}
-            onBlur={hideTooltip}
-            onKeyDown={(event) => {
-              if (event.key === "Escape") {
-                hideTooltip();
-              }
-            }}
-            onPointerDown={hideTooltip}
-            onClick={toggleLock}
-          >
-            <span aria-hidden="true">{locked ? LockedIcon : UnlockedIcon}</span>
-            Repeat tool
-            <span className="touch-repeat-state" aria-hidden="true">
-              {locked ? "On" : "Off"}
-            </span>
-          </button>
+          {direction !== "repeat" && (
+            <button
+              type="button"
+              aria-description={repeatDescription}
+              aria-pressed={locked}
+              onPointerEnter={(event) => {
+                if (event.pointerType !== "touch") {
+                  showTooltip(event.currentTarget, repeatDescription, {
+                    delay: true,
+                    long: true,
+                    position: "top",
+                  });
+                }
+              }}
+              onPointerLeave={hideTooltip}
+              onFocus={(event) => {
+                if (event.currentTarget.matches(":focus-visible")) {
+                  showTooltip(event.currentTarget, repeatDescription, {
+                    long: true,
+                    position: "top",
+                  });
+                }
+              }}
+              onBlur={hideTooltip}
+              onKeyDown={(event) => {
+                if (event.key === "Escape") {
+                  hideTooltip();
+                }
+              }}
+              onPointerDown={hideTooltip}
+              onClick={toggleLock}
+            >
+              <span aria-hidden="true">{locked ? LockedIcon : UnlockedIcon}</span>
+              Repeat tool
+              <span className="touch-repeat-state" aria-hidden="true">
+                {locked ? "On" : "Off"}
+              </span>
+            </button>
+          )}
+          {direction === "shortcuts" && (
+            <button
+              type="button"
+              data-option="shortcut-hints"
+              aria-pressed={showKeys}
+              onClick={() => setShowKeys(!showKeys)}
+            >
+              <span className="touch-keys-icon" aria-hidden="true">
+                A
+              </span>
+              Shortcut hints
+            </button>
+          )}
           <button
             ref={moreButton}
             type="button"
@@ -177,6 +229,48 @@ export default function TouchToolbar({
         <div className="touch-group touch-draw" role="group" aria-label="Draw">
           {drawing.map((tool) => toolButton(tool))}
         </div>
+        {direction === "repeat" && (
+          <div
+            className="touch-repeat-row"
+            role="group"
+            aria-label="After drawing"
+          >
+            <p id={repeatId}>
+              {repeatLabel ? (
+                <>
+                  <strong>After drawing with {repeatLabel}</strong>
+                  <span>
+                    {locked
+                      ? `Stay on ${repeatLabel}.`
+                      : `Switch back to ${selectionLabel}.`}
+                  </span>
+                </>
+              ) : (
+                <>
+                  <strong>After drawing</strong>
+                  <span>
+                    {isFreeDrawing
+                      ? "Draw stays active without this option."
+                      : "Pick a shape or text tool to set what happens next."}
+                  </span>
+                </>
+              )}
+            </p>
+            <button
+              type="button"
+              data-option="draw-again"
+              aria-pressed={locked}
+              aria-describedby={repeatId}
+              disabled={!repeatTool && !locked}
+              onClick={toggleLock}
+            >
+              Draw again
+              <span className="touch-repeat-state" aria-hidden="true">
+                {locked ? "On" : "Off"}
+              </span>
+            </button>
+          </div>
+        )}
       </div>
       {moreOpen ? (
         <div
