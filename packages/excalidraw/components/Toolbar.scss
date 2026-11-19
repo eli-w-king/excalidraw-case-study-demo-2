@@ -21,6 +21,18 @@
       align-self: center;
       background-color: var(--default-border-color);
     }
+
+    .ToolIcon__lock .ToolIcon__icon {
+      width: auto;
+      gap: 0.375rem;
+      padding-inline: 0.5rem;
+      font-size: 0.75rem;
+      white-space: nowrap;
+    }
+
+    .ToolIcon__lock.ToolIcon--checked .ToolIcon__icon {
+      color: var(--color-on-primary-container);
+    }
   }
 
   .App-toolbar__extra-tools-trigger {
