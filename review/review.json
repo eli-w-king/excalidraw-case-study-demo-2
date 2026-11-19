@@ -36,9 +36,10 @@
     "title": "Previous iteration: drawing three shapes with the touch toolbar"
   },
   "pr": {
-    "url": "https://github.com/eli-w-king/excalidraw-case-study-demo-2/pull/1",
-    "title": "toolbar: Ship the touch-friendly design and comparison lab",
-    "number": 1
+    "url": "https://github.com/eli-w-king/excalidraw-case-study-demo-2/pull/2",
+    "title": "toolbar: Refine the touch dock from practice research",
+    "number": 2,
+    "status": "Draft"
   },
   "updated": "2026-11-19"
 }
