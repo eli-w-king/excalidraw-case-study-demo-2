@@ -1,6 +1,6 @@
 {
   "title": "Four toolbar directions for Excalidraw",
-  "summary": "Four prototypes explore how to make the Excalidraw toolbar easier to use. Big and touch friendly is the new default on desktop and tablet; all four directions remain available in the lab.",
+  "summary": "Four prototypes explore how to make the Excalidraw toolbar easier to use. Big and touch friendly stays the default on desktop and tablet; this iteration applies the practice research to that design.",
   "favorite": "touch",
   "variations": [
     {
@@ -24,16 +24,16 @@
     {
       "slug": "touch",
       "name": "Big and touch friendly",
-      "idea": "A thumb-reachable dock separates Select from Pan and keeps Insert image one tap away.",
+      "idea": "A thumb-reachable dock keeps Select, Pan, Insert image, and Repeat tool visible above a labeled drawing grid on narrow screens.",
       "screenshot": "shots/touch.png",
-      "why": "Large, labeled targets make tools easier to find and hit. The dock distinguishes moving an object from moving the canvas."
+      "why": "Labels and generous tap targets stay. Repeat tool shows On or Off, and the active tool gets an outline so selection doesn't depend on color."
     }
   ],
   "video": {
     "src": "demo.mp4",
     "captions": "demo.vtt",
     "poster": "demo.jpg",
-    "title": "Drawing three shapes with the touch toolbar"
+    "title": "Previous iteration: drawing three shapes with the touch toolbar"
   },
   "pr": {
     "url": "https://github.com/eli-w-king/excalidraw-case-study-demo-2/pull/1",

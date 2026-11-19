@@ -5,13 +5,22 @@ import {
   LockedIcon,
   UnlockedIcon,
 } from "@excalidraw/excalidraw/components/icons";
+import {
+  hideTooltip,
+  showTooltip,
+} from "@excalidraw/excalidraw/components/Tooltip";
+
+import "./touch.css";
 
 import type { ToolbarMeta, ToolbarProps, ToolbarTool } from "../types";
 
 export const meta: ToolbarMeta = {
   name: "Big and touch friendly",
-  idea: "A thumb-reachable dock separates Select from Pan and keeps Insert image one tap away.",
+  idea: "A thumb-reachable dock keeps Select, Pan, Insert image, and Repeat tool visible above a labeled drawing grid on narrow screens.",
 };
+
+const repeatDescription =
+  "Keep using the same tool after drawing so you can draw again without reselecting it.";
 
 const labels: Partial<Record<ToolbarTool["type"], string>> = {
   selection: "Select",
@@ -29,126 +38,6 @@ const navigationTargets: Partial<Record<ToolbarTool["type"], string>> = {
   selection: "Objects",
   hand: "Canvas",
 };
-
-const styles = `
-  /* The stock welcome arrows assume a top toolbar and a clear lower corner. */
-  .excalidraw:has(.toolbar-touch) .welcome-screen-decor-hint--toolbar,
-  .excalidraw:has(.toolbar-touch) .welcome-screen-decor-hint--help {
-    display: none;
-  }
-  .toolbar-touch {
-    /* Leave the footer and the lab pill (64px from the bottom, 38px tall) clear. */
-    position: fixed;
-    inset-inline: 12px;
-    bottom: max(116px, calc(env(safe-area-inset-bottom) + 52px));
-    width: fit-content;
-    max-width: calc(100% - 24px);
-    margin-inline: auto;
-    color: var(--text-primary-color);
-    font: 600 14px/1.15 var(--ui-font);
-    pointer-events: var(--ui-pointerEvents);
-  }
-  .toolbar-touch .touch-dock,
-  .toolbar-touch .touch-more {
-    box-sizing: border-box;
-    background: var(--island-bg-color);
-    border: 1px solid var(--default-border-color);
-    border-radius: 20px;
-    box-shadow: var(--shadow-island);
-  }
-  .toolbar-touch .touch-dock {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 8px;
-    padding: 8px;
-  }
-  .toolbar-touch .touch-group {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 6px;
-    padding: 4px;
-    border-radius: 13px;
-    background: var(--color-surface-low);
-  }
-  .toolbar-touch button {
-    box-sizing: border-box;
-    display: flex;
-    flex: 0 0 auto;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 5px;
-    min-width: 62px;
-    min-height: 68px;
-    padding: 7px 8px;
-    border: 1px solid transparent;
-    border-radius: 10px;
-    background: var(--island-bg-color);
-    color: inherit;
-    font: inherit;
-    white-space: nowrap;
-    cursor: pointer;
-    touch-action: manipulation;
-  }
-  .toolbar-touch button svg {
-    display: block;
-    width: 22px;
-    height: 22px;
-  }
-  .toolbar-touch .touch-target {
-    font-size: 11px;
-    font-weight: 500;
-    opacity: 0.8;
-  }
-  .toolbar-touch button[data-tool="image"] {
-    min-width: 106px;
-    color: var(--color-on-primary-container);
-    border-color: var(--color-primary);
-  }
-  .toolbar-touch button:hover:not(:disabled),
-  .toolbar-touch button[aria-expanded="true"] {
-    border-color: var(--color-primary);
-  }
-  .toolbar-touch button[aria-pressed="true"] {
-    background: var(--color-surface-primary-container);
-    color: var(--color-on-primary-container);
-    border-color: var(--color-primary);
-  }
-  .toolbar-touch button:focus-visible {
-    outline: 2px solid var(--color-primary);
-    outline-offset: 2px;
-  }
-  .toolbar-touch button:disabled {
-    opacity: 0.5;
-    cursor: default;
-  }
-  .toolbar-touch .touch-more {
-    position: absolute;
-    z-index: 1;
-    inset-inline-end: 0;
-    bottom: calc(100% + 10px);
-    width: max-content;
-    max-width: 100%;
-    max-height: min(320px, max(110px, calc(100dvh - 310px)));
-    overflow: auto;
-    padding: 12px;
-  }
-  .toolbar-touch .touch-more-heading {
-    margin: 0 0 8px 4px;
-  }
-  .toolbar-touch .touch-hint .HintViewer {
-    top: auto;
-    bottom: calc(100% + 8px);
-    margin: 0;
-  }
-  @media (max-width: 600px) {
-    .toolbar-touch button {
-      padding-inline: 6px;
-    }
-  }
-`;
 
 export default function TouchToolbar({
   tools,
@@ -226,14 +115,10 @@ export default function TouchToolbar({
         }
       }}
     >
-      <style>{styles}</style>
       <div className="touch-dock">
         <div className="touch-group" role="group" aria-label="Navigate">
           {objectSelection && toolButton(objectSelection)}
           {pan && toolButton(pan)}
-        </div>
-        <div className="touch-group" role="group" aria-label="Draw">
-          {drawing.map((tool) => toolButton(tool))}
         </div>
         <div
           className="touch-group"
@@ -243,12 +128,40 @@ export default function TouchToolbar({
           {image && toolButton(image)}
           <button
             type="button"
-            title="Keep the current tool selected after drawing"
+            aria-description={repeatDescription}
             aria-pressed={locked}
+            onPointerEnter={(event) => {
+              if (event.pointerType !== "touch") {
+                showTooltip(event.currentTarget, repeatDescription, {
+                  delay: true,
+                  long: true,
+                  position: "top",
+                });
+              }
+            }}
+            onPointerLeave={hideTooltip}
+            onFocus={(event) => {
+              if (event.currentTarget.matches(":focus-visible")) {
+                showTooltip(event.currentTarget, repeatDescription, {
+                  long: true,
+                  position: "top",
+                });
+              }
+            }}
+            onBlur={hideTooltip}
+            onKeyDown={(event) => {
+              if (event.key === "Escape") {
+                hideTooltip();
+              }
+            }}
+            onPointerDown={hideTooltip}
             onClick={toggleLock}
           >
             <span aria-hidden="true">{locked ? LockedIcon : UnlockedIcon}</span>
-            Keep tool
+            Repeat tool
+            <span className="touch-repeat-state" aria-hidden="true">
+              {locked ? "On" : "Off"}
+            </span>
           </button>
           <button
             ref={moreButton}
@@ -260,6 +173,9 @@ export default function TouchToolbar({
             <span aria-hidden="true">{DotsHorizontalIcon}</span>
             More tools
           </button>
+        </div>
+        <div className="touch-group touch-draw" role="group" aria-label="Draw">
+          {drawing.map((tool) => toolButton(tool))}
         </div>
       </div>
       {moreOpen ? (
