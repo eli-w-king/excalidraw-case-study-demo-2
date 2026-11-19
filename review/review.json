@@ -1,9 +1,35 @@
 {
-  "title": "",
-  "summary": "",
-  "favorite": "",
-  "variations": [],
+  "title": "Four toolbar directions for Excalidraw",
+  "summary": "Four prototypes explore how to make the toolbar easier to understand. Playful and expressive is the recommendation for the next round of testing; the app default is unchanged.",
+  "favorite": "playful",
+  "variations": [
+    {
+      "slug": "minimal",
+      "name": "Minimal and calm",
+      "idea": "Four labeled essentials stay visible; More tools holds the rest, and Repeat tool makes retention explicit.",
+      "screenshot": "shots/minimal.png"
+    },
+    {
+      "slug": "playful",
+      "name": "Playful and expressive",
+      "idea": "Pick from a hand-drawn palette that shows what each tool does and whether it stays active after drawing.",
+      "screenshot": "shots/playful.png",
+      "why": "Visible labels and one-click image insertion address the main discoverability problems while preserving Excalidraw's hand-drawn feel."
+    },
+    {
+      "slug": "dense",
+      "name": "Dense for power users",
+      "idea": "Every tool and its real shortcuts at a glance, with tool retention and everyday commands in the same compact strip.",
+      "screenshot": "shots/dense.png"
+    },
+    {
+      "slug": "touch",
+      "name": "Big and touch friendly",
+      "idea": "A thumb-reachable dock separates Select from Pan and keeps Insert image one tap away.",
+      "screenshot": "shots/touch.png"
+    }
+  ],
   "video": null,
   "pr": null,
-  "updated": ""
+  "updated": "2026-11-19"
 }
