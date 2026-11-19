@@ -1,10 +1,12 @@
 .toolbar-touch-repeat .touch-repeat-row {
   display: flex;
-  flex: 1 0 100%;
+  box-sizing: border-box;
+  flex: 0 1 560px;
+  max-width: 100%;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  padding: 4px 4px 4px 12px;
+  padding: 4px 8px 4px 12px;
   border-radius: 13px;
   background: var(--color-surface-low);
 }

@@ -242,6 +242,24 @@ video:focus-visible {
   font-weight: var(--weight-strong);
 }
 
+.card__demo summary {
+  color: var(--accent);
+  cursor: pointer;
+}
+
+.card__demo summary:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.card__demo .video {
+  margin-top: var(--space-2);
+}
+
+.card:has(.card__demo) .shot {
+  object-fit: contain;
+}
+
 .card--empty {
   box-shadow: none;
   border-style: dashed;

@@ -26,7 +26,13 @@
       "slug": "touch",
       "name": "Big and touch friendly",
       "idea": "Large targets along the bottom edge, easy to reach with a thumb.",
-      "screenshot": "shots/touch.png"
+      "screenshot": "shots/touch.png",
+      "video": {
+        "src": "demos/touch.mp4",
+        "captions": "demos/touch.vtt",
+        "poster": "demos/touch.jpg",
+        "title": "A walkthrough of the touch toolbar"
+      }
     }
   ],
   "video": {
