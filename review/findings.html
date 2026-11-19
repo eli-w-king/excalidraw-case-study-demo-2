@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Toolbar research findings</title>
+    <link rel="icon" type="image/png" href="../favicon-32x32.png" />
+    <link rel="stylesheet" href="theme.css" />
+    <link rel="stylesheet" href="review.css" />
+  </head>
+  <body>
+    <main class="page">
+      <header class="header">
+        <p class="kicker">AI-First Design Workshop · Fictional practice research</p>
+        <h1 class="title">What six first-time users taught us about the toolbar</h1>
+        <p class="summary">
+          Six people tried the labeled prototype in an unmoderated study.
+          Quotes and counts below are from those workshop records, not from
+          a study of the new touch toolbar.
+        </p>
+        <div class="actions">
+          <a class="button button--primary" href="../?toolbar=touch">Try the touch toolbar</a>
+          <a class="button" href="./">Back to the toolbar review</a>
+        </div>
+      </header>
+
+      <section class="section" aria-labelledby="study">
+        <h2 class="section__title" id="study">Top study findings</h2>
+        <ol>
+          <li>
+            <p>
+              <strong>Repeat drawing was the biggest blocker.</strong>
+              Only 3 of 6 completed the five-circles task; the notes say
+              3 of 6 did not connect “Keep tool” with drawing several in a row.
+              P5 is the one participant quoted on the issue:
+              <q>Keep tool... keep it where?</q>
+            </p>
+          </li>
+          <li>
+            <p>
+                  <strong>Labels made tools easier to recognize.</strong>
+                  6 of 6 found the rectangle and arrow tools right away and completed the task.
+              The researcher reported that 5 of 6 found every tool on the first try.
+              Two participants explicitly praised labels in the study notes:
+              P1, <q>Oh, they have names now. That's all I needed.</q>
+              P2, <q>I'd turn the words off after a day, but today I need them.</q>
+            </p>
+          </li>
+          <li>
+            <p>
+              <strong>Touch users ran into two different layout problems.</strong>
+              2 of 6 reported a touch-device issue, one each:
+              P4 (tablet), <q>The labels make it wider than my screen.</q>
+              P3 (touch laptop), <q>My finger keeps hitting the one next to the one I want.</q>
+            </p>
+          </li>
+          <li>
+            <p>
+              <strong>Image needs to stay visible, not just move out of More.</strong>
+              5 of 6 completed the photo task; 1 of 6 (P4) couldn't see the
+              button in the scrolling toolbar. P6 is the one participant
+              quoted praising its placement:
+              <q>Image being right there is great. Last time I couldn't find it at all.</q>
+            </p>
+          </li>
+        </ol>
+        <p>
+          The notes also record that 2 of 6 tried the hand tool on a single
+          shape first. There is no participant quote for that observation.
+        </p>
+      </section>
+
+      <section class="section" aria-labelledby="iteration">
+        <h2 class="section__title" id="iteration">What changed and what to retest</h2>
+        <p>
+          The practice design review picked Playful, and 31 of 40 customers
+          in a separate survey preferred it. The review and survey don't count
+          toward the six-person study. This repo's favorite is Big and touch friendly, so we kept it
+          as the default and applied the feedback to that design. The review
+          called for touch targets of at least 44 pixels, and the accessibility
+          specialist asked that <q>the selected state can't rely on color alone.</q>
+        </p>
+        <p>
+          “Repeat tool” now says On or Off and has a full-sentence tooltip.
+          Insert image stays on the dock; labeled drawing buttons form a grid
+          on narrow screens. Select still says Objects and Pan still says Canvas.
+          The selected button gets an outline, labels use the theme's primary text color,
+          and there is no new motion. Shortcuts still work; a compact mode and
+          always-visible shortcut hints are out of scope.
+        </p>
+        <p>
+          Next, repeat the five-circles and photo tasks on a portrait tablet
+          with first-time users. Check whether they can find Repeat tool and
+          Insert image unaided and whether they tap neighboring buttons by mistake.
+        </p>
+      </section>
+
+      <footer class="footer">
+        <p>
+          Workshop sources in <code>workshop/practice/</code>:
+          <code>study-results.md</code>, <code>design-review-transcript.md</code>,
+          and <code>feedback.md</code>.
+        </p>
+      </footer>
+    </main>
+  </body>
+</html>
