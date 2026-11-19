@@ -1,0 +1,141 @@
+/* The welcome arrows point to the stock top toolbar and help corner. */
+.excalidraw:has(.toolbar-touch-portrait) .welcome-screen-decor-hint--toolbar,
+.excalidraw:has(.toolbar-touch-portrait) .welcome-screen-decor-hint--help {
+  display: none;
+}
+
+.toolbar-touch-portrait {
+  /* Clear the app footer and workshop switcher. */
+  --portrait-bottom: max(116px, calc(env(safe-area-inset-bottom) + 52px));
+  --portrait-gutter: max(
+    12px,
+    env(safe-area-inset-left),
+    env(safe-area-inset-right)
+  );
+
+  position: fixed;
+  inset-inline: var(--portrait-gutter);
+  bottom: var(--portrait-bottom);
+  width: min(464px, calc(100% - 2 * var(--portrait-gutter)));
+  margin-inline: auto;
+  grid-auto-rows: 1fr;
+  color: var(--text-primary-color);
+  font: 600 0.875rem/1.15 var(--ui-font);
+  pointer-events: var(--ui-pointerEvents);
+}
+
+.toolbar-touch-portrait,
+.toolbar-touch-portrait .portrait-sheet {
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  padding: 8px;
+  border: 1px solid var(--default-border-color);
+  border-radius: 20px;
+  background: var(--island-bg-color);
+  box-shadow: var(--shadow-island);
+}
+
+.toolbar-touch-portrait .portrait-control {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-width: 0;
+  min-height: 68px;
+  padding: 6px;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  background: var(--color-surface-mid);
+  color: inherit;
+  font: inherit;
+  text-align: center;
+  overflow-wrap: anywhere;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.toolbar-touch-portrait summary {
+  height: 100%;
+  list-style: none;
+}
+
+.toolbar-touch-portrait summary::-webkit-details-marker {
+  display: none;
+}
+
+.toolbar-touch-portrait .portrait-control svg {
+  display: block;
+  width: 22px;
+  height: 22px;
+}
+
+.toolbar-touch-portrait .portrait-detail {
+  display: block;
+  margin-top: 2px;
+  font-size: 0.75rem;
+}
+
+.toolbar-touch-portrait [data-tool="image"],
+.toolbar-touch-portrait .portrait-more[open] > summary {
+  border-color: var(--color-primary);
+}
+
+.toolbar-touch-portrait :is([aria-pressed="true"], summary[data-active-tool]) {
+  border-color: currentColor;
+  background: var(--color-surface-primary-container);
+  color: var(--color-on-primary-container);
+  box-shadow: inset 0 0 0 1px currentColor;
+}
+
+@media (hover: hover) {
+  .toolbar-touch-portrait .portrait-control:hover:not(:disabled) {
+    border-color: var(--color-primary);
+  }
+}
+
+.toolbar-touch-portrait .portrait-control:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.toolbar-touch-portrait .portrait-control:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.toolbar-touch-portrait .portrait-sheet {
+  position: absolute;
+  inset-inline: 0;
+  bottom: calc(100% + 8px);
+  max-height: clamp(88px, calc(100dvh - var(--portrait-bottom) - 208px), 320px);
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+
+.toolbar-touch-portrait .portrait-more:not([open]) > .portrait-sheet,
+.toolbar-touch-portrait .portrait-more[open] ~ .portrait-hint {
+  display: none;
+}
+
+.toolbar-touch-portrait .portrait-hint {
+  display: contents;
+}
+
+.toolbar-touch-portrait .portrait-hint .HintViewer {
+  inset: auto 0 calc(100% + 8px);
+  margin: 0;
+}
+
+@media (forced-colors: active) {
+  .toolbar-touch-portrait :is([aria-pressed="true"], summary[data-active-tool]) {
+    border: 2px solid Highlight;
+  }
+
+  .toolbar-touch-portrait .portrait-control:focus-visible {
+    outline-color: ButtonText;
+  }
+}
